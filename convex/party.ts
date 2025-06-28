@@ -22,7 +22,6 @@ export const createParty = mutation({
   handler: async (ctx, args) => {
     const id = await ctx.db.insert("parties", {
       title: args.title.trim(),
-      createdAt: Date.now(),
     });
 
     return {
