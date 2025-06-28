@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "dev:convex": "bunx convex dev",
+    "dev": "concurrently 'bunx convex dev' 'next dev --turbopack'",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -17,6 +16,7 @@
     "@mantine/hooks": "^8.1.2",
     "@mantine/modals": "^8.1.2",
     "@tanstack/react-query": "^5.81.5",
+    "concurrently": "^9.2.0",
     "convex": "^1.25.0",
     "date-fns": "^4.1.0",
     "next": "15.3.4",
