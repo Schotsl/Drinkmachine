@@ -11,6 +11,7 @@ export default defineSchema({
   shotglasses: defineTable({
     emoji: v.string(),
     createdAt: v.number(),
+    exposedId: v.string(),
   }),
 
   entries: defineTable({

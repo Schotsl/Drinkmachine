@@ -5,8 +5,9 @@ import PartyModal from "./_components/Model";
 import { Container, Paper, Title, Text } from "@mantine/core";
 import { Suspense, useEffect } from "react";
 import { useCurrentParty } from "@/hooks/party";
-import { useShotglass } from "@/hooks/useShotglass";
 import { useSearchParams } from "next/navigation";
+import { useMyEntries } from "@/hooks/entry";
+import { Doc } from "@/convex/_generated/dataModel";
 
 function ResultsContent() {
   const { data: currentParty } = useCurrentParty();
@@ -15,13 +16,20 @@ function ResultsContent() {
     return <PartyModal />;
   }
 
-  return <CurrentPartyOverview />;
+  return <CurrentPartyOverview currentParty={currentParty} />;
 }
 
-function CurrentPartyOverview() {
+function CurrentPartyOverview({
+  currentParty,
+}: {
+  currentParty: Doc<"parties">;
+}) {
   const params = useSearchParams();
   const shotglassUuid = params.get("shotglass")!;
-  const { data: shotglassData } = useShotglass({ uuid: shotglassUuid });
+  const { data: shotglassData } = useMyEntries({
+    partyId: currentParty._id,
+    shotglassId: shotglassUuid,
+  });
 
   useEffect(() => {
     localStorage.setItem("shotglass-uuid", shotglassUuid);
