@@ -7,7 +7,7 @@ import {
 } from "@mantine/core";
 
 import { ReactNode } from "react";
-import RootProviders from "./-components/RootProviders";
+import RootProviders from "./_components/RootProviders";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

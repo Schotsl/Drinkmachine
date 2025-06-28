@@ -2,8 +2,12 @@
 
 import styles from "../page.module.css";
 
+import PartyModal from "./_components/Model";
+
+import { Container, Paper, Title, Text } from "@mantine/core";
+
 import { Suspense } from "react";
-import { useCurrentParty } from "@/hooks/useParty";
+import { useCurrentParty } from "@/hooks/party";
 import { useShotglass } from "@/hooks/useShotglass";
 import { useSearchParams } from "next/navigation";
 
@@ -15,15 +19,33 @@ function ResultsContent() {
   const { data: shotglassData } = useShotglass({ uuid: shotglass });
 
   if (!currentParty) {
-    return <div>No party found</div>;
+    return <PartyModal />;
   }
 
   return (
     <div className={styles.page}>
-      <p style={{ fontSize: "18px", margin: "10px 0" }}>
-        {JSON.stringify(currentParty)}
-        {JSON.stringify(shotglassData)}
-      </p>
+      <Container size="md" mt="xl">
+        <Paper shadow="sm" p="xl" radius="lg">
+          <Title order={2} mb="md">
+            Party Data
+          </Title>
+          <Text size="sm" c="dimmed" mb="lg">
+            Debug information - this will be styled better later
+          </Text>
+          <div style={{ fontSize: "14px", fontFamily: "monospace" }}>
+            <div style={{ marginBottom: "10px" }}>
+              <strong>Party Data:</strong>
+              <br />
+              {JSON.stringify(partyData, null, 2)}
+            </div>
+            <div>
+              <strong>Shotglass Data:</strong>
+              <br />
+              {JSON.stringify(shotglassData, null, 2)}
+            </div>
+          </div>
+        </Paper>
+      </Container>
     </div>
   );
 }

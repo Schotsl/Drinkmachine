@@ -1,21 +1,17 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { subHours } from "date-fns";
 
 export const getCurrentParty = query({
   handler: async (ctx) => {
-    const recentEntry = await ctx.db
-      .query("entries")
-      .filter((q) =>
-        q.gt(q.field("_creationTime"), Date.now() - 8 * 60 * 60 * 1000)
-      )
+    const eightHoursAgo = subHours(new Date(), 8);
+
+    const recentParty = await ctx.db
+      .query("parties")
+      .filter((q) => q.gte(q.field("_creationTime"), eightHoursAgo.getTime()))
       .first();
 
-    if (!recentEntry) {
-      return null;
-    }
-
-    const party = await ctx.db.get(recentEntry.partyId);
-    return party;
+    return recentParty;
   },
 });
 
@@ -25,7 +21,7 @@ export const createParty = mutation({
   },
   handler: async (ctx, args) => {
     const id = await ctx.db.insert("parties", {
-      title: args.title,
+      title: args.title.trim(),
       createdAt: Date.now(),
     });
 
