@@ -14,10 +14,10 @@
     "@mantine/core": "^8.1.2",
     "@mantine/hooks": "^8.1.2",
     "@mantine/modals": "^8.1.2",
-    "@yudiel/react-qr-scanner": "^2.3.1",
     "next": "15.3.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-qr-barcode-scanner": "^2.1.7",
     "recharts": "2"
   },
   "devDependencies": {
