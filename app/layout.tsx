@@ -1,3 +1,5 @@
+"use client";
+
 import "@mantine/core/styles.css";
 
 import {
@@ -6,23 +8,22 @@ import {
   mantineHtmlProps,
 } from "@mantine/core";
 
-export const metadata = {
-  title: "Shotmachine",
-};
+import { ReactNode } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
+  const client = new QueryClient();
+
   return (
-    <html lang="en" {...mantineHtmlProps}>
-      <head>
-        <ColorSchemeScript />
-      </head>
-      <body>
-        <MantineProvider>{children}</MantineProvider>
-      </body>
-    </html>
+    <QueryClientProvider client={client}>
+      <html lang="en" {...mantineHtmlProps}>
+        <head>
+          <ColorSchemeScript />
+        </head>
+        <body>
+          <MantineProvider>{children}</MantineProvider>
+        </body>
+      </html>
+    </QueryClientProvider>
   );
 }
