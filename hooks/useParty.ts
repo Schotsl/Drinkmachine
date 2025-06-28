@@ -8,7 +8,9 @@ export const useParty = () => {
     queryKey: ["party"],
     queryFn: async () => {
       const { data, error } = await supabase.rpc("get_party");
-
+      console.log("data", data);
+      console.log(data);
+      console.log("error", error);
       if (error) {
         throw error;
       }
