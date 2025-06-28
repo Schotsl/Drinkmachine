@@ -4,13 +4,11 @@ import { v } from "convex/values";
 export default defineSchema({
   parties: defineTable({
     title: v.string(),
-    createdAt: v.number(),
-    updatedAt: v.optional(v.number()),
   }),
 
   shotglasses: defineTable({
     emoji: v.string(),
-    createdAt: v.number(),
+    title: v.string(),
     exposedId: v.string(),
   }),
 
@@ -18,8 +16,6 @@ export default defineSchema({
     amount: v.number(),
     partyId: v.id("parties"),
     shotglassId: v.id("shotglasses"),
-    createdAt: v.number(),
-    updatedAt: v.optional(v.number()),
   })
     .index("by_party", ["partyId"])
     .index("by_shotglass", ["shotglassId"])

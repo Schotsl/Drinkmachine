@@ -7,6 +7,7 @@ import { useCurrentParty } from "@/hooks/party";
 import { useMyEntries } from "@/hooks/entry";
 import { Doc } from "@/convex/_generated/dataModel";
 import PartyModal from "./Model";
+import Editable from "./Editable";
 
 function ResultsContent({ shotglassUuid }: { shotglassUuid: string }) {
   const { data: currentParty } = useCurrentParty();
