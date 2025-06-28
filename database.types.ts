@@ -9,6 +9,69 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      entry: {
+        Row: {
+          amount: number
+          created_at: string
+          party: string
+          shotglass: string
+          updated_at: string | null
+          uuid: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          party: string
+          shotglass: string
+          updated_at?: string | null
+          uuid?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          party?: string
+          shotglass?: string
+          updated_at?: string | null
+          uuid?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "entry_party_fkey"
+            columns: ["party"]
+            isOneToOne: false
+            referencedRelation: "party"
+            referencedColumns: ["uuid"]
+          },
+          {
+            foreignKeyName: "entry_shotglass_fkey"
+            columns: ["shotglass"]
+            isOneToOne: false
+            referencedRelation: "shotglas"
+            referencedColumns: ["uuid"]
+          },
+        ]
+      }
+      party: {
+        Row: {
+          created_at: string
+          title: string
+          updated_at: string | null
+          uuid: string
+        }
+        Insert: {
+          created_at?: string
+          title: string
+          updated_at?: string | null
+          uuid?: string
+        }
+        Update: {
+          created_at?: string
+          title?: string
+          updated_at?: string | null
+          uuid?: string
+        }
+        Relationships: []
+      }
       shotglas: {
         Row: {
           created_at: string
@@ -32,7 +95,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_party: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          created_at: string
+          title: string
+          updated_at: string | null
+          uuid: string
+        }
+      }
     }
     Enums: {
       [_ in never]: never
