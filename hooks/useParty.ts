@@ -1,19 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
-import { Party } from "@/types";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { convexQuery } from "@convex-dev/react-query";
+import { api } from "@/convex/_generated/api";
 
-import supabase from "@/utils/supabase";
-
-export const useParty = () => {
-  return useQuery<Party>({
-    queryKey: ["party"],
-    queryFn: async () => {
-      const { data, error } = await supabase.rpc("get_party");
-
-      if (error) {
-        throw error;
-      }
-
-      return data;
-    },
-  });
-};
+export function useCurrentParty() {
+  return useSuspenseQuery(convexQuery(api.party.getCurrentParty, {}));
+}
