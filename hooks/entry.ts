@@ -5,7 +5,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 
 export function useMyEntries(args: {
   partyId: Id<"parties">;
-  shotglassId: Id<"shotglasses">;
+  shotglassExposedId: string;
 }) {
   return useSuspenseQuery(convexQuery(api.entry.getMyEntries, args));
 }
