@@ -2,7 +2,6 @@
 
 import dynamic from "next/dynamic";
 import styles from "./page.module.css";
-
 import { useRouter } from "next/navigation";
 
 const BarcodeScanner = dynamic(() => import("react-qr-barcode-scanner"), {

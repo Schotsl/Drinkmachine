@@ -3,12 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "dev:convex": "bunx convex dev",
+    "dev": "concurrently 'bunx convex dev' 'next dev --turbopack'",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "types": "supabase gen types typescript --project-id 'blizvjrwslrrpsboxtxi' --schema public > types.database.ts",
     "prettier": "prettier --write ."
   },
   "dependencies": {
@@ -17,17 +15,15 @@
     "@mantine/core": "^8.1.2",
     "@mantine/hooks": "^8.1.2",
     "@mantine/modals": "^8.1.2",
-    "@supabase/ssr": "^0.6.1",
-    "@supabase/supabase-js": "^2.50.2",
     "@tanstack/react-query": "^5.81.5",
+    "concurrently": "^9.2.0",
     "convex": "^1.25.0",
     "date-fns": "^4.1.0",
     "next": "15.3.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-qr-barcode-scanner": "^2.1.7",
-    "recharts": "2",
-    "supabase": ">=1.8.1"
+    "recharts": "2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
