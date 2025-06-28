@@ -1,7 +1,9 @@
 "use client";
 
+import { Id } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
-import { Doc } from "@/convex/_generated/dataModel";
+import { useState } from "react";
+import { useMutation } from "convex/react";
 import {
   ActionIcon,
   Group,
@@ -9,54 +11,50 @@ import {
   Title,
   useMantineTheme,
 } from "@mantine/core";
-import { useMutation } from "convex/react";
-import { useEffect, useState } from "react";
 
-type Props = {
-  shotglass: Doc<"shotglasses">;
+type EditableProps = {
+  id: Id<"shotglasses">;
+  title: string;
 };
 
-export function Title({ shotglass }: Props) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [title, setTitle] = useState(shotglass.title);
+export default function Editable(props: EditableProps) {
+  const [title, setTitle] = useState(props.title);
+  const [editing, setEditing] = useState(false);
+
   const theme = useMantineTheme();
   const updateShotglass = useMutation(api.shotglass.updateShotglass);
 
-  useEffect(() => {
-    setTitle(shotglass.title);
-  }, [shotglass.title]);
-
   const handleSave = () => {
-    setIsEditing(false);
+    setEditing(false);
 
-    if (title.trim() === shotglass.title) {
+    if (title.trim() === props.title) {
       return;
     }
 
     if (title.trim().length === 0) {
-      setTitle(shotglass.title);
+      setTitle(props.title);
       return;
     }
 
     updateShotglass({
-      id: shotglass._id,
+      id: props.id,
       title,
     });
   };
 
-  const handleIconClick = () => {
-    setIsEditing(true);
+  const handleEdit = () => {
+    setEditing(true);
   };
 
-  if (isEditing) {
+  if (editing) {
     return (
       <TextInput
         w="100%"
         mt={-5}
         ml={-13}
         value={title}
-        onChange={(event) => setTitle(event.currentTarget.value)}
         onBlur={handleSave}
+        onChange={(event) => setTitle(event.currentTarget.value)}
         onKeyDown={(event) => {
           if (event.key === "Enter") {
             handleSave();
@@ -66,8 +64,6 @@ export function Title({ shotglass }: Props) {
         styles={{
           input: {
             ...(theme.headings.sizes.h1 as React.CSSProperties),
-            fontWeight: 700,
-            height: "auto",
             width: "calc(100% + 26px)",
             paddingTop: "4px",
             paddingBottom: "4px",
@@ -85,8 +81,8 @@ export function Title({ shotglass }: Props) {
 
   return (
     <Group align="center" gap="sm">
-      <Title order={1}>{shotglass.title}</Title>
-      <ActionIcon onClick={handleIconClick} variant="subtle">
+      <Title order={1}>{props.title}</Title>
+      <ActionIcon onClick={handleEdit} variant="subtle">
         ✏️
       </ActionIcon>
     </Group>
