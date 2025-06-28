@@ -1,24 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { useInsertParty } from "@/mutations/insertParty";
 import { Modal, TextInput, Button, Title, Text } from "@mantine/core";
+import { useCreateParty } from "@/hooks/party";
 
-interface PartyModalProps {
-  onCreated: () => void;
-}
-
-export default function PartyModal({ onCreated }: PartyModalProps) {
-  const [party, setParty] = useState("");
-
-  const insertParty = useInsertParty();
+export default function PartyModal() {
+  const [partyTitle, setPartyTitle] = useState("");
+  const insertPartMutation = useCreateParty();
 
   const handleCreateParty = async () => {
-    if (!party.trim()) return;
+    if (!partyTitle.trim()) return;
 
-    await insertParty.mutateAsync({ title: party.trim() });
-
-    onCreated();
+    await insertPartMutation.mutateAsync({ title: partyTitle });
   };
 
   return (
@@ -47,13 +40,17 @@ export default function PartyModal({ onCreated }: PartyModalProps) {
       <TextInput
         size="md"
         label="Party Name"
-        value={party}
+        value={partyTitle}
         radius="md"
         required={true}
         placeholder="e.g., Sarah's Birthday Bash, Game Night 2024..."
-        onChange={(event) => setParty(event.currentTarget.value)}
+        onChange={(event) => setPartyTitle(event.currentTarget.value)}
         onKeyDown={(event) => {
-          if (event.key === "Enter" && party.trim() && !insertParty.isPending) {
+          if (
+            event.key === "Enter" &&
+            partyTitle.trim() &&
+            !insertPartMutation.isPending
+          ) {
             handleCreateParty();
           }
         }}
@@ -65,12 +62,12 @@ export default function PartyModal({ onCreated }: PartyModalProps) {
         size="md"
         radius="md"
         variant="gradient"
-        disabled={!party.trim() || insertParty.isPending}
-        loading={insertParty.isPending}
+        disabled={!partyTitle.trim() || insertPartMutation.isPending}
+        loading={insertPartMutation.isPending}
         gradient={{ from: "blue", to: "cyan", deg: 45 }}
         fullWidth={true}
       >
-        {insertParty.isPending ? "Creating..." : "Create Party"}
+        {insertPartMutation.isPending ? "Creating..." : "Create Party"}
       </Button>
     </Modal>
   );

@@ -7,7 +7,7 @@ import PartyModal from "./_components/Model";
 import { Container, Paper, Title, Text } from "@mantine/core";
 
 import { Suspense } from "react";
-import { useParty } from "@/hooks/useParty";
+import { useCurrentParty } from "@/hooks/party";
 import { useShotglass } from "@/hooks/useShotglass";
 import { useSearchParams } from "next/navigation";
 
@@ -15,13 +15,15 @@ function ResultsContent() {
   const params = useSearchParams();
   const shotglass = params.get("shotglass")!;
 
-  const { data: partyData } = useParty();
+  const { data: currentParty } = useCurrentParty();
   const { data: shotglassData } = useShotglass({ uuid: shotglass });
+
+  if (!currentParty) {
+    return <PartyModal />;
+  }
 
   return (
     <div className={styles.page}>
-      {partyData === null && <PartyModal onCreated={() => {}} />}
-
       <Container size="md" mt="xl">
         <Paper shadow="sm" p="xl" radius="lg">
           <Title order={2} mb="md">
