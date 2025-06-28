@@ -14,6 +14,7 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as party from "../party.js";
+import type * as shotglass from "../shotglass.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -25,6 +26,7 @@ import type * as party from "../party.js";
  */
 declare const fullApi: ApiFromModules<{
   party: typeof party;
+  shotglass: typeof shotglass;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,
