@@ -46,7 +46,7 @@ export type Database = {
             foreignKeyName: "entry_shotglass_fkey"
             columns: ["shotglass"]
             isOneToOne: false
-            referencedRelation: "shotglas"
+            referencedRelation: "shotglass"
             referencedColumns: ["uuid"]
           },
         ]
@@ -72,7 +72,7 @@ export type Database = {
         }
         Relationships: []
       }
-      shotglas: {
+      shotglass: {
         Row: {
           created_at: string
           emoji: string
