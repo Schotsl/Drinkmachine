@@ -1,26 +1,31 @@
 "use client";
 
 import styles from "../page.module.css";
-
 import PartyModal from "./_components/Model";
-
 import { Container, Paper, Title, Text } from "@mantine/core";
-
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useCurrentParty } from "@/hooks/party";
 import { useShotglass } from "@/hooks/useShotglass";
 import { useSearchParams } from "next/navigation";
 
 function ResultsContent() {
-  const params = useSearchParams();
-  const shotglass = params.get("shotglass")!;
-
   const { data: currentParty } = useCurrentParty();
-  const { data: shotglassData } = useShotglass({ uuid: shotglass });
 
   if (!currentParty) {
     return <PartyModal />;
   }
+
+  return <CurrentPartyOverview />;
+}
+
+function CurrentPartyOverview() {
+  const params = useSearchParams();
+  const shotglassUuid = params.get("shotglass")!;
+  const { data: shotglassData } = useShotglass({ uuid: shotglassUuid });
+
+  useEffect(() => {
+    localStorage.setItem("shotglass-uuid", shotglassUuid);
+  }, [params, shotglassUuid]);
 
   return (
     <div className={styles.page}>
@@ -36,7 +41,6 @@ function ResultsContent() {
             <div style={{ marginBottom: "10px" }}>
               <strong>Party Data:</strong>
               <br />
-              {JSON.stringify(partyData, null, 2)}
             </div>
             <div>
               <strong>Shotglass Data:</strong>
@@ -50,7 +54,7 @@ function ResultsContent() {
   );
 }
 
-export default function Results() {
+export default function Page() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <ResultsContent />
