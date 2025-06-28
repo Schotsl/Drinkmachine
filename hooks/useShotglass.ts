@@ -15,13 +15,13 @@ export const useShotglass = ({ uuid }: ShotglassProps) => {
         .from("shotglass")
         .select("*")
         .eq("uuid", uuid)
-        .single();
+        .limit(1);
 
       if (error) {
         throw error;
       }
 
-      return data;
+      return data[0];
     },
   });
 };

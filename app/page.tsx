@@ -1,27 +1,28 @@
+"use client";
+
+import dynamic from "next/dynamic";
 import styles from "./page.module.css";
 
-import { useParty } from "@/hooks/useParty";
+import { useRouter } from "next/navigation";
+
+const BarcodeScanner = dynamic(() => import("react-qr-barcode-scanner"), {
+  ssr: false,
+});
 
 export default function Home() {
-  const { data: partyData, isLoading, error } = useParty();
+  const router = useRouter();
 
-  if (isLoading) {
-    return <div className={styles.page}>Loading parties...</div>;
-  }
+  const handleScan = (error: unknown, result?: { text: string }) => {
+    if (!result) {
+      return;
+    }
 
-  if (error) {
-    return (
-      <div className={styles.page}>Error loading parties: {error.message}</div>
-    );
-  }
+    router.push(`/overview?shotglass=${result.text}`);
+  };
 
   return (
     <div className={styles.page}>
-      <h1>Parties</h1>
-
-      <ul>
-        <li key={partyData?.uuid}>{JSON.stringify(partyData)}</li>
-      </ul>
+      <BarcodeScanner width={500} height={500} onUpdate={handleScan} />
     </div>
   );
 }
